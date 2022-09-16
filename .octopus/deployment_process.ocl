@@ -1,0 +1,27 @@
+step "Deploy a Package" {
+    properties = {
+        Octopus.Action.TargetRoles = "role"
+    }
+
+    action {
+        action_type = "Octopus.TentaclePackage"
+        properties = {
+            Octopus.Action.EnabledFeatures = ",Octopus.Features.ConfigurationTransforms,Octopus.Features.ConfigurationVariables"
+            Octopus.Action.Package.AutomaticallyRunConfigurationTransformationFiles = "True"
+            Octopus.Action.Package.AutomaticallyUpdateAppSettingsAndConnectionStrings = "True"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "#{Feed}"
+            Octopus.Action.Package.PackageId = "#{Package}"
+        }
+        worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "Server"
+            feed = "#{Feed}"
+            package_id = "#{Package}"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
